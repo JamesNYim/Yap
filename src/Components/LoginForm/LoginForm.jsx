@@ -27,9 +27,6 @@ const LoginForm = () => {
                 </div>
             </form>
         </div>
-        <div className = "Title">
-            <h1> Yap </h1>
-        </div>
     );
 };
 
