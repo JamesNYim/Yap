@@ -15,10 +15,9 @@ function App() {
         <button type="submit">Login Now!</button>
       </form>
       <div className="signup-text">
-        <p>Don't have an Account?</p>
+        <p>Don't have an Account?&nbsp;</p>
         <a href="#" className="signup-link">Register Here!</a>
       </div>
-      <footer>&copy; 2024 Yap. All rights reserved.</footer>
     </div>
   );
 }

@@ -10,3 +10,8 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+// Render the footer outside of the App component
+ReactDOM.render(
+    <footer>&copy; 2024 Yap. All rights reserved.</footer>,
+    document.getElementById('footer')
+  );

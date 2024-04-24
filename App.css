@@ -9,7 +9,7 @@ body {
 .container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px 20px 2px ; /* Increase the top and bottom padding */
   background-color: #2B4570;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -22,29 +22,49 @@ h1, .logo, form, footer, .signup-text, .small-line {
 }
 
 form {
+  max-width: 400px; /* Adjust the max-width as needed */
+  margin: 0 auto;
   background-color: #2B4570;
   padding: 20px;
-  border: 2px solid #F7ECE1;
+  border: 2px solid #F7ECE1; /* Border color */
   border-radius: 8px;
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-input[type="text"], input[type="password"], button {
-  padding: 10px;
-  margin-bottom: 10px;
+input[type="text"],input[type="password"] {
+  padding: 2px;
+  margin: 0 auto 10px; /* Center horizontally with auto margins */
   border: none;
+  font-family: 'Raleway', sans-serif;
   border-radius: 4px;
   display: block;
-  width: 100%;
+  width: 80%;
+  background-color: rgba(0, 0, 0, 0); /* Set background color to transparent */
+  border-bottom: 2px solid #F7ECE1; /* Add a bottom border for better visibility */
+  color: #F7ECE1; /* Set text color to match the design */
 }
 
-button {
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+  color: #F7ECE1; /* Set placeholder text color */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+}
+
+button[type="submit"] {
   background-color: #8DA0A5;
+  margin: 0 auto 10px; /* Center horizontally with auto margins */
   color: #F7ECE1;
   cursor: pointer;
+  border: none; /* Remove border */
+  font-family: 'Raleway', sans-serif;
+  width: 80%;
+  border-radius: 20px; /* Make border radius 20px for roundness */
+  padding: 10px 20px; /* Add padding for better button appearance */
 }
-
 button:hover {
   background-color: #5B627F;
 }
