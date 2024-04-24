@@ -1,22 +1,17 @@
-import React, {useState} from "react";
+import React from "react";
 import './App.css';
 import LoginForm from './LoginForm';
+import Signup from './Signup';
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-    const handleLoginSuccess = () => {
-      setIsAuthenticated(true);
-    };
-
     return (
-      <div>
-          {isAuthenticated ? (
-              <div>Welcome! You are logged in.</div>
-          ) : (
-              <LoginForm onLoginSuccess={handleLoginSuccess}/>
-          )}
-      </div>
+      <BrowserRouter>
+          <Routes>
+              <Route path={'/'} element={<LoginForm />}></Route>
+              <Route path={'/signup'} element={<Signup />}></Route>>
+          </Routes>
+      </BrowserRouter>
     );
 }
 

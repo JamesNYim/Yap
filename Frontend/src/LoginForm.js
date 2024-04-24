@@ -1,38 +1,46 @@
-import './App.css';
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import './LoginForm.css';
+import { FaUser } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
-function LoginForm({ onLoginSuccess }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log('Username: ', username, 'Password: ', password);
-        // Login logic here will add later
-        if (username === 'Kotiger' && password === '1234') {
-            onLoginSuccess();
-        } else {
-          alert('Invalid username or password')
-        }
-    };
-
+const LoginForm = () => {
     return (
-        <form onSubmit={handleSubmit}>
+        <div className={'wrapper'}>
             <div>
-                <label>
-                    Username:
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
-                </label>
+                <form action={""}>
+                    <h1><p className={"small-line"}>Yap About It.</p></h1>
+                    <h2> Login </h2>
+                    <div className={"input-box"}>
+                        <label htmlFor={"username"}><strong>Username</strong></label>
+                        <input type={"username"} placeholder={'Enter Username'} required/>
+                        <FaUser className="icon"/>
+                    </div>
+
+                    <div className={"input-box"}>
+                        <label htmlFor={"password"}><strong>Password</strong></label>
+                        <input type={"password"} placeholder={'Enter Password'} required/>
+                        <FaLock className="icon"/>
+                    </div>
+
+                    <div className="remember-forgot">
+                        <label><input type="checkbox"/>Remember Me</label>
+                        <a href='#'> Forgot Password? </a>
+                    </div>
+
+                    <div>
+                        <button type={"submit"}>Log In</button>
+                    </div>
+
+                    <div className="register-link">
+                        <p>Don't have an account? <Link to={'/signup'}>Create Account</Link> </p>
+                    </div>
+
+                    <footer className={'copyright'}>&copy; 2024 Yap. All rights reserved.</footer>
+                </form>
             </div>
-            <div>
-                <label>
-                    Password:
-                    <input type="text" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                </label>
-            </div>
-            <button type="submit">Login</button>
-        </form>
+        </div>
     );
-}
+};
 
 export default LoginForm;
