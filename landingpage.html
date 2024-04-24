@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YAP</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Fantasy, 'Arial Black', sans-serif; /* Change the font family */
+            background-color: #4E3D42; /* Use color #4E3D42 for the background */
+            color: white;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #6D6466; /* Use color #C9D5B5 for the container background */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            border: 2px solid #9F9F92; /* Use color #9F9F92 for the border */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: Fantasy, 'Arial Black', sans-serif; /* Change the font family */
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #C9D5B5; /* Use color #6D6466 for the form background */
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 4px;
+            display: block;
+            width: calc(100% - 2px); /* Set the width to 100% minus padding and margin */
+            box-sizing: border-box; /* Include padding and border in the width calculation */
+        }
+
+        input[type="submit"] {
+            background-color: #9F9F92; /* Use color #9F9F92 for the submit button */
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #E3DBDB; /* Change the hover color to #E3DBDB */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <!-- Your logo here -->
+            <!-- <img src="logo.png" alt="Logo"> -->
+        </div>
+        <h1>YAP</h1>
+        <form action="#" method="POST">
+            <input type="text" name="email" placeholder="Email">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</body>
+
+</html>
