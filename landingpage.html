@@ -5,31 +5,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YAP</title>
+    <title>Login</title>
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             padding: 0;
-            font-family: Fantasy, 'Arial Black', sans-serif; /* Change the font family */
-            background-color: #4E3D42; /* Use color #4E3D42 for the background */
-            color: white;
+            font-family: 'Raleway', sans-serif; /* Change the font family */
+            background-color: #7180AC; /* Use color #4E3D42 for the background */
+            color: #F7ECE1;
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #6D6466; /* Use color #C9D5B5 for the container background */
+            background-color: #2B4570; /* Use color #6D6466 for the container background */
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-top: 50px;
-            border: 2px solid #9F9F92; /* Use color #9F9F92 for the border */
+            border: 2px solid #2B4570; /* Use color #9F9F92 for the border */
         }
 
         h1 {
             text-align: center;
             margin-bottom: 20px;
-            font-family: Fantasy, 'Arial Black', sans-serif; /* Change the font family */
         }
 
         .logo {
@@ -38,9 +42,11 @@
         }
 
         form {
-            background-color: #C9D5B5; /* Use color #6D6466 for the form background */
+            background-color: #2B4570; /* Use color #C9D5B5 for the form background */
             padding: 20px;
+            border: 2px solid #F7ECE1;
             border-radius: 8px;
+            position: relative;
         }
 
         input[type="text"],
@@ -55,14 +61,39 @@
             box-sizing: border-box; /* Include padding and border in the width calculation */
         }
 
+        input[type="text"]::after {
+            content: "\f007"; /* Use the Font Awesome icon code for user */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900; /* Specify the Font Awesome font family and weight */
+            position: absolute;
+            padding: 10px;
+            color: #6D6466; /* Use color #6D6466 for the icon */
+            right: 10px; 
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        input[type="password"]::after {
+            content: "\f023"; /* Use the Font Awesome icon code for lock */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900; /* Specify the Font Awesome font family and weight */
+            position: absolute;
+            padding: 10px;
+            color: #6D6466; /* Use color #6D6466 for the icon */
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
         input[type="submit"] {
-            background-color: #9F9F92; /* Use color #9F9F92 for the submit button */
-            color: white;
+            background-color: #8DA0A5; /* Use color #9F9F92 for the submit button */
+            font-family: Monospace, 'Arial Black', sans-serif; 
+            color: #F7ECE1;
             cursor: pointer;
         }
 
         input[type="submit"]:hover {
-            background-color: #E3DBDB; /* Change the hover color to #E3DBDB */
+            background-color: #5B627F; /* Change the hover color to #E3DBDB */
         }
     </style>
 </head>
@@ -73,11 +104,11 @@
             <!-- Your logo here -->
             <!-- <img src="logo.png" alt="Logo"> -->
         </div>
-        <h1>YAP</h1>
+        <h1>Login</h1>
         <form action="#" method="POST">
             <input type="text" name="email" placeholder="Email">
             <input type="password" name="password" placeholder="Password">
-            <input type="submit" value="Login">
+            <input type="submit" value="Start Yapping!">
         </form>
     </div>
 </body>
