@@ -9,7 +9,7 @@ body {
 .container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 40px 20px 2px ; /* Increase the top and bottom padding */
+  padding: 40px 20px 250px; /* Increase the top and bottom padding */
   background-color: #2B4570;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -17,7 +17,13 @@ body {
   border: 2px solid #2B4570;
 }
 
-h1, .logo, form, footer, .signup-text, .small-line {
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 300; /* Make the font thinner */
+}
+
+.logo, form, footer, .signup-text, .small-line {
   text-align: center;
 }
 
