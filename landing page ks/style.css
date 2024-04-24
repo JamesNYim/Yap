@@ -1,0 +1,82 @@
+/* General Styles */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Poppins', sans-serif; /* Updated font family */
+    background-color: #f4f4f7; /* Soft pastel background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header, footer {
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+    background-color: #e1e1e1; /* Light grey for a soft look */
+    color: #333;
+    position: fixed;
+    left: 0;
+}
+
+header {
+    top: 0;
+    font-family: 'Poppins', sans-serif; /* Apply Poppins here specifically for the app name */
+    font-weight: 700; /* Chunkier appearance */
+}
+
+footer {
+    bottom: 0;
+}
+
+/* Login container styling */
+.login-container {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 300px;
+}
+
+/* Shadow styling */
+#login-shadow {
+    position: absolute;
+    width: 320px; /* Slightly wider to give a shadow effect */
+    height: 200px; /* Adjust height based on your form size */
+    background: #dcdcdc; /* Darker grey for shadow */
+    z-index: -1; /* Ensure it's behind the login box */
+    border-radius: 8px;
+    transform: translate(5px, 5px); /* Adjust shadow position */
+}
+
+/* Form Styling */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #a3d2ca; /* Pastel teal */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #71c7b1; /* A darker shade of pastel teal for hover effect */
+}
