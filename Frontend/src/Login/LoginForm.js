@@ -1,25 +1,40 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './LoginForm.css';
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import validation from './LoginValidation';
 
 const LoginForm = () => {
+    const [values, setValues] = useState({
+        username: '',
+        password: ''
+    })
+    const [errors, setErrors] = useState({})
+
+    const handleInput = (event) => {
+        setValues(prevState => ({...prevState, [event.target.name] : [event.target.name]}))
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        setErrors(validation(values));
+    }
     return (
         <div className={'wrapper'}>
             <div>
-                <form action={""}>
+                <form action={""} onSubmit={handleSubmit}>
                     <h1><p className={"small-line"}>Yap About It.</p></h1>
                     <h2> Login </h2>
                     <div className={"input-box"}>
-                        <label htmlFor={"username"}><strong>Username</strong></label>
-                        <input type={"username"} placeholder={'Enter Username'} required/>
+                        <label htmlFor={"username"}><strong>Username or Email</strong></label>
+                        <input type={"username"} placeholder={'Enter Username or Email'} name={'username'} onChange={handleInput} required/>
                         <FaUser className="icon"/>
                     </div>
 
                     <div className={"input-box"}>
                         <label htmlFor={"password"}><strong>Password</strong></label>
-                        <input type={"password"} placeholder={'Enter Password'} required/>
+                        <input type={"password"} placeholder={'Enter Password'} name-={'password'} onChange={handleInput} required/>
                         <FaLock className="icon"/>
                     </div>
 
