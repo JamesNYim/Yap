@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import './Signup.css';
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
     // State function to travel to the main page after successful login

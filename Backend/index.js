@@ -9,6 +9,8 @@ app.use(cors({
 }));
 app.use(express.json()); //req.body
 
+const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 //ROUTES//
 
 // Create New User (Registration)
@@ -21,17 +23,51 @@ app.post("/signup",async(req, res) => {
       res.status(201).json(newUser.rows[0]);
    } catch (err) {
       console.error("Error on /signup:", err)
-      res.status(500).send('Server Error');
+      res.status(500).json('Server Error');
    }
 })
 
-// Get all Users
+// Get a User by email or username
+app.get("/login/get", async (req, res) => {
+   const { login } = req.query;
+   if (!login) {
+      return res.status(400).json({ error: "Missing 'login' query parameter" });
+   }
 
-// Get a User By ID
+   let query, values;
+   if (email_pattern.test(login)) {
+      query = "SELECT * FROM users WHERE email = $1";
+      values = [login];
+   } else {
+      query = "SELECT * FROM users WHERE username = $1"
+      values = [login];
+   }
+   try {
+      const user = await pool.query(query, values);
 
-// Update a User
+      if (user.rows.length > 0) {
+         res.status(200).json(user.rows[0]);
+      } else {
+         res.status(404).json({error: "User not found"});
+      }
+   } catch (err) {
+      console.error(err.message);
+      res.status(500).json({ error: "Server Error" })
+   }
+});
 
-// Delete a User
+// Update a User by email or username
+app.put("/update/put", async(req,res) => {
+   const { login } = req.query;
+   if (!login) {
+      return res.status(400).json({ error: "Missing 'login' query parameter" });
+   }
+
+   let query, value;
+
+});
+
+// Delete a User by email or username
 
 // App is going to be listening for connections on port 1234
 app.listen(5001, () => {
