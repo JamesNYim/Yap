@@ -8,7 +8,7 @@ function Signup() {
     // State function to travel to the main page after successful login
     const navigate = useNavigate();
     const goToHomePage = () => {
-        navigate('/');
+        navigate('/login');
     };
 
     // Keep track of the username, email, and password

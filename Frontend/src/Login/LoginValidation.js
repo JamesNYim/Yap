@@ -9,7 +9,9 @@ function validation(values) {
 
     if (values.username === "") {
         error.username = "Invalid Username"
-    } /*else if (!email_pattern.test(values.username))*/
+    } else if (!email_pattern.test(values.username)) {
+        error.email = "Invalid Username"
+    }
 }
 
 export default validation;

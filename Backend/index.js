@@ -1,13 +1,28 @@
+import session from "express-session";
+import cookieParser from "cookie-parser";
+import {maxAge} from "express-session/session/cookie";
+
 const express = require("express"); // Creating express var
 const app = express(); // Initializing express
 const cors = require("cors")
 const pool = require("./db");
+const {values} = require("pg/lib/native/query");
 
 // Middleware
 app.use(cors({
    origin: 'http://localhost:3000'
 }));
 app.use(express.json()); //req.body
+app.use(cookieParser())
+app.use(session({
+   secret: process.env.SESSION_SECRET,
+   resave: false,
+   saveUninitialized: false,
+   cookie: {
+      secure: false,
+      maxAge: 60 * 60 * 24 * 1000
+   }
+}))
 
 const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -25,6 +40,11 @@ app.post("/signup",async(req, res) => {
       console.error("Error on /signup:", err)
       res.status(500).json('Server Error');
    }
+})
+
+// User Authentication
+app.post("/login",async(req, res) => {
+   const { username, email, password } = req.body;
 })
 
 // Get a User by email or username
@@ -58,16 +78,79 @@ app.get("/login/get", async (req, res) => {
 
 // Update a User by email or username
 app.put("/update/put", async(req,res) => {
-   const { login } = req.query;
+   const { login, newPassword } = req.query;
+
    if (!login) {
       return res.status(400).json({ error: "Missing 'login' query parameter" });
    }
+   if (!newPassword) {
+      return res.status(400).json({ error: "Missing 'newPassword' query parameter" });
+   }
 
-   let query, value;
+   let query, values;
+   if (email_pattern.test(login)) {
+      query = "Update users SET password = $1 WHERE email = $2";
+      values = [newPassword, login];
+   } else {
+      query = "UPDATE users SET password = $1 WHERE username = $2";
+      values = [newPassword, login];
+   }
 
+   try {
+      const updateUser = await pool.query(query, values);
+
+      if (updateUser.rows.length > 0) {
+         res.status(200).json(updateUser.rows[0]);
+      } else {
+         res.status(404).json({error: "User not found"});
+      }
+   } catch (err) {
+      console.error(err.message);
+      res.status(500).json({ error: "Server Error" })
+   }
 });
 
 // Delete a User by email or username
+app.delete("/userdelete/delete", async(req,res) => {
+   const { login, password } = req.query;
+
+   if (!login || !password) {
+      return res.status(400).json({ error: "Missing 'login' and/or 'password' query parameter" });
+   }
+
+   let findQuery, deleteQuery, values;
+
+   if (email_pattern.test(login)) {
+      findQuery = "SELECT * FROM users WHERE email = $1";
+      deleteQuery = "DELETE FROM users WHERE email = $2 RETURNING *";
+      values = [login];
+   } else {
+      findQuery = "SELECT * FROM users WHERE username = $1";
+      deleteQuery = "DELETE FROM users WHERE username = $2 RETURNING *";
+      values = [login];
+   }
+
+   try {
+      const result = await pool.query(findQuery, values);
+      if (result.rows.length === 0) {
+         return res.status(404).json({error: "User not found"});
+      }
+      const user = result.rows[0];
+      if (password !== user.password) {
+         return res.status(403).json({error: "Passwords do not match"});
+      }
+
+      const deleteResult = await pool.query(deleteQuery, values);
+      if (deleteResult.rows.length > 0) {
+         res.status(200).json(deleteResult.rows[0]);
+      } else {
+         res.status(404).json({error: "User not found"});
+      }
+   } catch (err) {
+      console.error(err.message);
+      res.status(500).json({ error: "Server Error" })
+   }
+});
 
 // App is going to be listening for connections on port 1234
 app.listen(5001, () => {
