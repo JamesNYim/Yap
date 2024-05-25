@@ -1,17 +1,30 @@
 import React from "react";
 
-function validation(values) {
-    let error = {}
-    const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const username_pattern = /^.{5,}$/
-    const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
-    const mediumPassword = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/
+const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-    if (values.username === "") {
-        error.username = "Invalid Username"
-    } else if (!email_pattern.test(values.username)) {
-        error.email = "Invalid Username"
-    }
+function validation(values) {
+    const errors = {};
+
+    // fetch the post method from the server
+    return fetch(`http://localhost:5001/login/get?login=${values.username}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type' : 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (email_pattern.test(values.username)) {
+                if (data.email === values.username) {
+                    return data.email === values.email;
+                } else if (data.username === values.username) {
+                    return data.username === values.username;
+                }
+            } else {
+                return false
+            }
+        })
+        .catch((error) => console.error('Error:', error));
 }
 
 export default validation;

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function Signup() {
     // State function to travel to the main page after successful login
     const navigate = useNavigate();
-    const goToHomePage = () => {
+    const goToLoginPage = () => {
         navigate('/login');
     };
 
@@ -51,7 +51,7 @@ function Signup() {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                goToHomePage();
+                goToLoginPage();
             })
             .catch((error) => console.error('Error:', error));
     };

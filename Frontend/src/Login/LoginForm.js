@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './LoginForm.css';
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import validation from './LoginValidation';
 
 const LoginForm = () => {
@@ -10,16 +10,27 @@ const LoginForm = () => {
         username: '',
         password: ''
     })
+
+    const navigate = useNavigate();
+    const goToHomePage = () => {
+        navigate('/');
+    };
+
     const [errors, setErrors] = useState({})
 
     const handleInput = (event) => {
-        setValues(prevState => ({...prevState, [event.target.name] : [event.target.name]}))
+        const { name, value } = event.target;
+        setValues(prevState => ({ ...prevState, [name]: value }));
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setErrors(validation(values));
+        const isValidUser = validation(values)
+        if (isValidUser) {
+            goToHomePage()
+        }
     }
+
     return (
         <div className={'wrapper'}>
             <div>
@@ -34,7 +45,7 @@ const LoginForm = () => {
 
                     <div className={"input-box"}>
                         <label htmlFor={"password"}><strong>Password</strong></label>
-                        <input type={"password"} placeholder={'Enter Password'} name-={'password'} onChange={handleInput} required/>
+                        <input type={"password"} placeholder={'Enter Password'} name={'password'} onChange={handleInput} required/>
                         <FaLock className="icon"/>
                     </div>
 

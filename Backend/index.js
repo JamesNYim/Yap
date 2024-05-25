@@ -1,10 +1,8 @@
-import session from "express-session";
-import cookieParser from "cookie-parser";
-import {maxAge} from "express-session/session/cookie";
-
 const express = require("express"); // Creating express var
 const app = express(); // Initializing express
 const cors = require("cors")
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const pool = require("./db");
 const {values} = require("pg/lib/native/query");
 
@@ -14,7 +12,7 @@ app.use(cors({
 }));
 app.use(express.json()); //req.body
 app.use(cookieParser())
-app.use(session({
+/*app.use(session({
    secret: process.env.SESSION_SECRET,
    resave: false,
    saveUninitialized: false,
@@ -22,7 +20,7 @@ app.use(session({
       secure: false,
       maxAge: 60 * 60 * 24 * 1000
    }
-}))
+}))*/
 
 const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -40,11 +38,6 @@ app.post("/signup",async(req, res) => {
       console.error("Error on /signup:", err)
       res.status(500).json('Server Error');
    }
-})
-
-// User Authentication
-app.post("/login",async(req, res) => {
-   const { username, email, password } = req.body;
 })
 
 // Get a User by email or username
