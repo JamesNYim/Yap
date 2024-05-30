@@ -12,15 +12,15 @@ app.use(cors({
 }));
 app.use(express.json()); //req.body
 app.use(cookieParser())
-/*app.use(session({
+app.use(session({
    secret: process.env.SESSION_SECRET,
    resave: false,
    saveUninitialized: false,
    cookie: {
       secure: false,
       maxAge: 60 * 60 * 24 * 1000
-   }
-}))*/
+   } // set the session cookie properties
+}))
 
 const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 

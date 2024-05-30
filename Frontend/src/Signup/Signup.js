@@ -3,6 +3,7 @@ import './Signup.css';
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import PasswordStrengthMeter from './passwordStrength'
 
 function Signup() {
     // State function to travel to the main page after successful login
@@ -75,11 +76,14 @@ function Signup() {
                 <div className={"input-box"}>
                     <label htmlFor={"password"}><strong>Password</strong></label>
                     <input type={"password"} placeholder={'Enter Password'} name={'password'} onChange={handleInput} required/>
+                    <div style={{margin: '10px auto', width: '100%'}}>
+                        <PasswordStrengthMeter password={values.password}/>
+                    </div>
                     <FaLock className="icon"/>
                 </div>
 
                 <div className={"input-box"}>
-                    <label htmlFor={"re-password"}><strong>Re-enter Password</strong></label>
+                    <label htmlFor={"re-password"} ><strong>Re-enter Password</strong></label>
                     <input type={"password"} placeholder={'Re-enter Password'} onChange={handleRePasswordInput} required/>
                     <FaLock className="icon"/>
                 </div>
