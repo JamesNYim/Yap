@@ -1,9 +1,16 @@
-import LoginForm from './Components/LoginForm/LoginForm';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginForm from './Pages/LoginForm/LoginForm';
+import RegisterForm from './Pages/RegisterForm/RegisterForm';
+import Home from './Pages/Home/Home';
 function App() {
   return (
-    <div>
-        <LoginForm />
-    </div>
+    <Router> 
+        <Routes>
+            <Route path="/" element={<Home />}/>
+            <Route path="/login" element={<LoginForm />}/>
+            <Route path="/register" element={<RegisterForm/>}/>
+        </Routes>
+    </Router>
   );
 }
 
