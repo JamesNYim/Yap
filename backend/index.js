@@ -16,10 +16,10 @@ app.listen(8888, () => {
 app.post("/users", async(req, res) => {
    try {
 
-        const {username} = req.body;
+        const {username, email, password} = req.body;
         const newUser = await pool.query(
-            "INSERT INTO users (username) VALUES($1) RETURNING *", 
-            [username]);
+            "INSERT INTO users (username, email, password) VALUES($1, $2, $3) RETURNING *", 
+            [username, email, password]);
 
         res.json(newUser);
     } 
