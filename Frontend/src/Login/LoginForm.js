@@ -23,13 +23,15 @@ const LoginForm = () => {
         setValues(prevState => ({ ...prevState, [name]: value }));
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const isValidUser = validation(values)
-        if (isValidUser) {
+        const isValidUser = await validation(values)
+        if (isValidUser === true) {
             goToHomePage()
+        } else {
+            alert('Login failed, please check your username and password.');
         }
-    }
+    };
 
     return (
         <div className={'wrapper'}>

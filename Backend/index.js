@@ -3,6 +3,7 @@ const app = express(); // Initializing express
 const cors = require("cors")
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const bcrypt = require("bcrypt");
 const pool = require("./db");
 const {values} = require("pg/lib/native/query");
 
@@ -29,11 +30,29 @@ const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 // Create New User (Registration)
 app.post("/signup",async(req, res) => {
    const { username, email, password } = req.body;
+
    try {
+      const existingUserQuery = "SELECT * FROM users WHERE username = $1 OR email = $2";
+      const existingUser = await pool.query(existingUserQuery, [username, email]);
+
+      if (existingUser.rows.length > 0) {
+         // If a user is found, return an error
+         return res.status(409).json({ message: "Username or email already exists" });
+      }
+
+      const saltRounds = 10
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
       const query = "INSERT INTO users (username, email, password) VALUES($1, $2, $3) RETURNING *";
-      const values = [username, email, password];
+      const values = [username, email, hashedPassword];
       const { newUser } = await pool.query(query, values)
-      res.status(201).json(newUser.rows[0]);
+
+      if (result.rows.length > 0) {
+         const { password, ...newUser } = result.rows[0];
+         res.status(201).json(newUser.rows[0]);
+      } else {
+         throw new Error("Insert Failed");
+      }
    } catch (err) {
       console.error("Error on /signup:", err)
       res.status(500).json('Server Error');
@@ -41,31 +60,26 @@ app.post("/signup",async(req, res) => {
 })
 
 // Get a User by email or username
-app.get("/login/get", async (req, res) => {
-   const { login } = req.query;
-   if (!login) {
-      return res.status(400).json({ error: "Missing 'login' query parameter" });
-   }
+app.post("/login", async (req, res) => {
+   const { username, password } = req.body;
 
-   let query, values;
-   if (email_pattern.test(login)) {
-      query = "SELECT * FROM users WHERE email = $1";
-      values = [login];
-   } else {
-      query = "SELECT * FROM users WHERE username = $1"
-      values = [login];
-   }
    try {
-      const user = await pool.query(query, values);
+      const query = "SELECT * FROM users WHERE username = $1 OR email = $1";
+      const { rows } = await pool.query(query, [username]);
+      if (rows.length === 0) {
+         return res.status(404).json({ success: false, message: "User not found" });
+      }
 
-      if (user.rows.length > 0) {
-         res.status(200).json(user.rows[0]);
+      const user = rows[0];
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (isMatch) {
+         res.json({ success: true, message: "Login successful" });
       } else {
-         res.status(404).json({error: "User not found"});
+         res.status(401).json({ success: false, message: "Invalid password" });
       }
    } catch (err) {
-      console.error(err.message);
-      res.status(500).json({ error: "Server Error" })
+      console.error("Error on /login:", err.message);
+      res.status(500).json({ success: false, message: "Server Error" });
    }
 });
 
