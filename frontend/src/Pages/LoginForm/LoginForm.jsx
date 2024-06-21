@@ -23,7 +23,7 @@ const LoginForm = () => {
                 </div>
                 <button type="submit">Login</button>
                 <div className="register-link"> 
-                    <p>Don't have an account? <a href="#"> Register </a></p>
+                    <p>Don't have an account? <a href="#/Register"> Register </a></p>
                 </div>
             </form>
         </div>
@@ -31,3 +31,4 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+

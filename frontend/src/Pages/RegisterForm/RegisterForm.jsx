@@ -4,26 +4,92 @@ import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
+const BACKEND_URL = 'http://localhost:8888'
+const USERDB_URL = BACKEND_URL + '/users'
 function RegisterForm() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [availabilityMessage, setAvailabilityMessage] = useState('');
+    const [userAvailability, setUserAvailability] = useState('');
+    const [emailAvailability, setEmailAvailability] = useState('');
+
+    const checkUserAvailability = async () => {
+        try {
+            const response = fetch(
+                BACKEND_URL + '/check-user-availability',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username }),
+                }
+            );
+            response.then(response => response.json())
+            .then(data => {
+                    console.log('Successful user retival: ', data.message);
+                    setAvailabilityMessage(data.message);
+                    setUserAvailability(data.availability);
+                }
+            )       
+        }
+        catch (e) {
+            console.log("Error checking availability", e);
+            setAvailabilityMessage("There was an error checking username availability");
+        }        
+    };
+
+    const checkEmailAvailability = async () => {
+        console.log("Checking Email Availability: " , email);
+        try {
+            const response = fetch(
+                BACKEND_URL + '/check-email-availability',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                }
+            );
+            response.then(response => response.json())
+            .then(data => {
+                    console.log('Successful email retrieval:', data.message);
+                    setAvailabilityMessage(data.message);
+                    setEmailAvailability(data.availability);
+                }
+            )
+        }
+        catch (e) {
+            console.log("Error checking availability", e);
+            setAvailabilityMessage("There was an error checking email availability");
+        }        
+    };
 
     const handleSubmission = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); 
 
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+        } 
+        if (!userAvailability || !emailAvailability) {
+            console.log("User or Email exists already");
+            return;
+        }
         // Creating the payload
         const payload = {
             username,
             email,
             password,
         };
-
+       
         // Sending a post request to backend
         try {
             // Need to generalize backend url into a gloal thing
             const response = await fetch(
-                'http://localhost:8888/users', 
+                    BACKEND_URL + '/users', 
                 {
                     method: 'POST',
                     headers: {
@@ -52,6 +118,7 @@ function RegisterForm() {
                         type = 'text' 
                         value = {email}
                         onChange={(e)=>setEmail(e.target.value)}
+                        onBlur={checkEmailAvailability}
                         placeholder = 'email' 
                         required
                     />
@@ -63,15 +130,19 @@ function RegisterForm() {
                         type = 'text' 
                         value = {username}
                         onChange={(e)=>setUsername(e.target.value)}
+                        onBlur={checkUserAvailability}
                         placeholder = 'username' 
                         required
                     />
                     <FaUser className = "icon"/>
                 </div>
+                <div>
+                    <p>{availabilityMessage}</p>
+                </div>
                 
                 <div className = "input-box">
                     <input 
-                        type = 'text' 
+                        type = 'password' 
                         value = {password}
                         onChange={(e)=>setPassword(e.target.value)}
                         placeholder = 'password' 
@@ -81,7 +152,13 @@ function RegisterForm() {
                 </div>
                 
                 <div className = "input-box">
-                    <input type = 'password' placeholder = 'confrim password' require/>
+                    <input 
+                        type = 'password' 
+                        value = {confirmPassword}
+                        onChange={(e)=>setConfirmPassword(e.target.value)}
+                        placeholder = 'confrim password' 
+                        require
+                    />
                     <FaLock className = "icon"/>
                 </div>
 
