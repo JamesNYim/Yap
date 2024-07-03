@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import './RegisterForm.css';
 import { FaUser } from "react-icons/fa";
-import { FaLock } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+import { FaLock } from "react-icons/fa"; import { MdEmail } from "react-icons/md";
 
 const BACKEND_URL = 'http://localhost:8888'
 const USERDB_URL = BACKEND_URL + '/users'
@@ -11,14 +11,18 @@ function RegisterForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [availabilityMessage, setAvailabilityMessage] = useState('');
+    const [statusMessage, setStatusMessage] = useState('');
     const [userAvailability, setUserAvailability] = useState('');
     const [emailAvailability, setEmailAvailability] = useState('');
 
     const checkUserAvailability = async () => {
+        if (!username) {
+            setStatusMessage("There was no username please enter one");
+            return;
+        }
         try {
             const response = fetch(
-                BACKEND_URL + '/check-user-availability',
+                BACKEND_URL + '/check-user-exists',
                 {
                     method: 'POST',
                     headers: {
@@ -30,22 +34,25 @@ function RegisterForm() {
             response.then(response => response.json())
             .then(data => {
                     console.log('Successful user retival: ', data.message);
-                    setAvailabilityMessage(data.message);
-                    setUserAvailability(data.availability);
+                    setStatusMessage(data.message);
+                    setUserAvailability(data.exists);
                 }
             )       
         }
         catch (e) {
             console.log("Error checking availability", e);
-            setAvailabilityMessage("There was an error checking username availability");
+            setStatusMessage("There was an error checking username availability");
         }        
     };
 
     const checkEmailAvailability = async () => {
-        console.log("Checking Email Availability: " , email);
+        if (!email) {
+            setStatusMessage("There was no email please enter one");
+            return;
+        }
         try {
             const response = fetch(
-                BACKEND_URL + '/check-email-availability',
+                BACKEND_URL + '/check-email-exists',
                 {
                     method: 'POST',
                     headers: {
@@ -57,20 +64,19 @@ function RegisterForm() {
             response.then(response => response.json())
             .then(data => {
                     console.log('Successful email retrieval:', data.message);
-                    setAvailabilityMessage(data.message);
-                    setEmailAvailability(data.availability);
+                    setStatusMessage(data.message);
+                    setEmailAvailability(data.exists);
                 }
             )
         }
         catch (e) {
             console.log("Error checking availability", e);
-            setAvailabilityMessage("There was an error checking email availability");
+            setStatusMessage("There was an error checking email availability");
         }        
     };
 
     const handleSubmission = async (e) => {
         e.preventDefault(); 
-
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
         } 
@@ -102,6 +108,7 @@ function RegisterForm() {
             // Handle response
             const data = await response.json();
             console.log('Sucessfully created a new user', data);
+
         }
         catch (error) {
             console.error('Error creating a new user:', error);
@@ -136,9 +143,6 @@ function RegisterForm() {
                     />
                     <FaUser className = "icon"/>
                 </div>
-                <div>
-                    <p>{availabilityMessage}</p>
-                </div>
                 
                 <div className = "input-box">
                     <input 
@@ -162,9 +166,12 @@ function RegisterForm() {
                     <FaLock className = "icon"/>
                 </div>
 
+                <div>
+                    <p>{statusMessage}</p>
+                </div>
                 <button type = "submit"> Sign Up </button>
                 <div className = "login-link">
-                    <p> Have an account already? <a href = { '#/login' }> Login </a></p>
+                    <p> Have an account already? <a href = { '/login' }> Login </a></p>
                 </div>
             </form>
         </div>
