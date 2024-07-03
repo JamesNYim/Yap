@@ -66,6 +66,7 @@ app.put("/users/:id", async (req, res) => {
         console.error(err.message);
     }
 });
+
 // Delete a user
 app.delete("/users/:id", async (req, res) => {
     const { id } = req.params;
@@ -77,18 +78,18 @@ app.delete("/users/:id", async (req, res) => {
 });
 
 // Checking if a username can be registered
-app.post('/check-user-availability', async (req, res) => {
+app.post('/check-user-exists', async (req, res) => {
     const { username } = req.body;
     try {
         const userResult = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
 
          
-        // If a Username is already taken
+        // If an account with a username exists. 
         if (userResult.rows.length > 0) {
-            return res.status(200).json({ availability: false, field: 'username', message: 'Username is already taken' }); 
+            return res.status(200).json({ exists: false, message: 'Username already exists' }); 
         } 
-        // If username can be registered 
-        return res.status(200).json({availability: true}); 
+        // If username does not exist
+        return res.status(200).json({exists: true}); 
     }
     catch (e) {
         console.log('Error checking availability', e);
@@ -97,7 +98,7 @@ app.post('/check-user-availability', async (req, res) => {
 });
 
 // Checking if an email can be registered
-app.post('/check-email-availability', async (req, res) => {
+app.post('/check-email-exists', async (req, res) => {
     const { email } = req.body;
     try {
         const emailResult = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
@@ -105,14 +106,37 @@ app.post('/check-email-availability', async (req, res) => {
         
         // If an Email is already registered
         if (emailResult.rows.length > 0) {
-            return res.status(200).json({ availability: false, field: 'email', message: 'Email is already registered' });
+            return res.status(200).json({ exists: false, message: 'Email already exists' });
         }
         
         // If email can be registered
-        return res.status(200).json({availability: true});
+        return res.status(200).json({exists: true});
     }
     catch (e) {
         console.log('Error checking availability', e.message);
         res.status(500).send('Server Error');
+    }
+});
+
+// Logging a user in
+app.post('/login' , async (req, res) => {
+    const loginInfo = req.body;
+    const username = loginInfo.username;
+    const password = loginInfo.password;
+    console.log("Username: " + username);
+    console.log("Password: " + password);
+    
+    try {
+        const userResult = await pool.query('SELECT password FROM users WHERE username = $1', [username]);
+        
+        // If a username is registered check if password is the same
+        const userPass = userResult.rows[0].password;
+        if (userPass == password) {
+            return res.status(200).json({success: true});
+        }
+        return res.status(200).json({success: false, message: 'Incorrect Password'});
+    }
+    catch (e) {
+    
     }
 });

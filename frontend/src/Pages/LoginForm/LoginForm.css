@@ -37,6 +37,11 @@
     color: #DFE0DF;
 }
 
+.input-box p {
+    text-align: center;
+    justify-content: space-evenly;
+    margin-top: 5px;
+}
 .input-box .icon {
     position: absolute;
     right: 20px;
@@ -49,7 +54,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 15px;
-    margin: -15px 0 15px;
+    margin: 0px 0 15px;
 }
 
 .remember-forgot label input {
