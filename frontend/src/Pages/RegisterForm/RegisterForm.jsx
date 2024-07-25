@@ -14,7 +14,7 @@ function RegisterForm() {
     const [statusMessage, setStatusMessage] = useState('');
     const [userAvailability, setUserAvailability] = useState('');
     const [emailAvailability, setEmailAvailability] = useState('');
-
+    document.body.setAttribute('class', 'register-form');
     const checkUserAvailability = async () => {
         if (!username) {
             setStatusMessage("There was no username please enter one");
@@ -116,7 +116,7 @@ function RegisterForm() {
     }
 
     return (
-        <div className = 'wrapper'> 
+        <div className='wrapper'>
             <form onSubmit={handleSubmission}>
                 <h1> Register </h1>
 
