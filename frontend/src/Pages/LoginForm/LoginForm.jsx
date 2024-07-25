@@ -14,6 +14,7 @@ function LoginForm() {
     const [statusMessage, setStatusMessage] = useState('');
     const [userStatusMsg, setUserStatusMsg] = useState('');
     const navigate = useNavigate();
+    document.body.setAttribute('class', 'login-form');
     const userExistsCheck = async () => {
         if (!username) {
             setUserStatusMsg("Please enter a username");
