@@ -5,7 +5,7 @@ const Home = () => {
     document.body.setAttribute('class', 'home-page');
     return (
         <div class='homePage'>
-            <div class='navbar'>
+            <div class='navbar-component'>
                 <Navbar />
             </div>
             <div class='content'>
