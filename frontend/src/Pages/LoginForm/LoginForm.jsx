@@ -64,7 +64,7 @@ function LoginForm() {
             console.log('Successful Login Check: ', data.success);
             if (data.success) {
                 console.log("Signing in");
-                navigate('/register');
+                navigate('/' + username);
             }
             else if (!data.success) {
                 setStatusMessage("Incorrect Username or Password");

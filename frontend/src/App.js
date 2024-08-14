@@ -7,6 +7,7 @@ function App() {
     <Router> 
         <Routes>
             <Route path="/" element={<Home />}/>
+            <Route path ="/:username" element={<Home />}/>
             <Route path="/login" element={<LoginForm />}/>
             <Route path="/register" element={<RegisterForm/>}/>
         </Routes>

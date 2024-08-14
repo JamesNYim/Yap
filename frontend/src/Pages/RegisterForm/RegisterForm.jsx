@@ -14,6 +14,7 @@ function RegisterForm() {
     const [statusMessage, setStatusMessage] = useState('');
     const [userAvailability, setUserAvailability] = useState('');
     const [emailAvailability, setEmailAvailability] = useState('');
+    const navigate = useNavigate();
     document.body.setAttribute('class', 'register-form');
     const checkUserAvailability = async () => {
         if (!username) {
@@ -108,7 +109,7 @@ function RegisterForm() {
             // Handle response
             const data = await response.json();
             console.log('Sucessfully created a new user', data);
-
+            navigate('/login');
         }
         catch (error) {
             console.error('Error creating a new user:', error);

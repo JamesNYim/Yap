@@ -1,4 +1,5 @@
-const express = require("express"); const app = express();
+const express = require("express"); 
+const app = express();
 const cors = require("cors");
 const pool = require("./db");
 
@@ -138,5 +139,17 @@ app.post('/login' , async (req, res) => {
     }
     catch (e) {
     
+    }
+});
+
+// Getting a users post
+app.get('/:username', async (req, res) => {
+    const { username } = req.params;
+    try {
+        const userPosts = await pool.query('SELECT * FROM posts WHERE creator_name = $1', [username]);
+        return res.status(200).json(userPosts.rows);
+    }
+    catch (e) {
+        return res.status(500).json({message: "error getting user posts"})
     }
 });
