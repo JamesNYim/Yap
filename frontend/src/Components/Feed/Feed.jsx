@@ -38,9 +38,7 @@ export default function Feed() {
                 hasMore={true}
                 loader={<h4>Loading...</h4>}
             >
-                {posts.map((post, index) => (
-                   <p key={index}> {post.content}</p> 
-                ))}
+                { posts.map((post, index) => (<p key={index}> {post.content}</p>)) }
                 
             </InfiniteScroll>
             <button onClick={fetchPosts}>Load Posts</button> {/* Button to trigger fetchPosts */}

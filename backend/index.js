@@ -145,11 +145,13 @@ app.post('/login' , async (req, res) => {
 // Getting a users post
 app.get('/:username', async (req, res) => {
     const { username } = req.params;
+    console.log("its calling");
     try {
         const userPosts = await pool.query('SELECT * FROM posts WHERE creator_name = $1', [username]);
-        return res.status(200).json(userPosts.rows);
+        return res.status(200).json({posts: userPosts.rows});
     }
     catch (e) {
-        return res.status(500).json({message: "error getting user posts"})
+        return res.status(500).json({message: "error getting user it broke"})
     }
 });
+
