@@ -1,3 +1,4 @@
+import './Feed.css';
 import React, { useState } from 'react';
 import InfiniteScroll from  "react-infinite-scroll-component";
 
@@ -38,10 +39,10 @@ export default function Feed() {
                 hasMore={true}
                 loader={<h4>Loading...</h4>}
             >
-                { posts.map((post, index) => (<p key={index}> {post.content}</p>)) }
+                { posts.map((post, index) => (<p class="post" key={index}> {post.content}</p>)) }
                 
             </InfiniteScroll>
-            <button onClick={fetchPosts}>Load Posts</button> {/* Button to trigger fetchPosts */}
+            <button className="loadPosts" onClick={fetchPosts}>Load Posts</button> {/* Button to trigger fetchPosts */}
             
         </div>
     ) 
