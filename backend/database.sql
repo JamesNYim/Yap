@@ -5,6 +5,15 @@ CREATE TABLE users(
     email VARCHAR(255) UNIQUE,
     password VARCHAR(255)
 );
+CREATE TABLE playerInfo(
+    playerInfoID SERIAL PRIMARY KEY,
+    playerID INT NOT NULL,
+    FOREIGN KEY (playerID) REFERENCES users(user_id),
+    playerName VARCHAR(255) NOT NULL,
+    FOREIGN KEY (playerName) REFERENCES users(username),
+    balance INT NOT NULL,
+    hasLoggedInToday BOOLEAN NOT NULL
+);
 CREATE TABLE posts(
     post_id SERIAL PRIMARY KEY,
     creator_id INT NOT NULL, 
@@ -14,8 +23,5 @@ CREATE TABLE posts(
     content VARCHAR(255)
 );
 
-CREATE TABLE comments(
-    comment_id SERIAL PRIMARY KEY,
-    comment VARCHAR(255)
-);
+
 
