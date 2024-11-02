@@ -2,7 +2,7 @@ import './Navbar.css';
 import { FaUserCircle } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
-
+import LogoutButton from '../LogoutButton/LogoutButton';
 export default function Navbar() {
     return (
         <nav class="navbar">
@@ -24,6 +24,9 @@ export default function Navbar() {
                         <span class="link-text">Friends</span>
                         <FaUsers className="icon"/>
                     </a>
+                </li>
+                <li class = "nav-item">
+                   <LogoutButton /> 
                 </li>
             </ul>
         </nav>
