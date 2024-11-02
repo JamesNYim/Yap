@@ -4,10 +4,13 @@ import './LoginForm.css';
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 
-
+import * as cookies from '../../Utilities/cookies.jsx';
 const BACKEND_URL = 'http://localhost:8888'
 
 
+function loginBehavior(username) {
+    cookies.setCookie("username", username);
+}
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -64,6 +67,7 @@ function LoginForm() {
             console.log('Successful Login Check: ', data.success);
             if (data.success) {
                 console.log("Signing in");
+                loginBehavior(username)
                 navigate('/' + username);
             }
             else if (!data.success) {

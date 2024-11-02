@@ -1,14 +1,27 @@
 .home-page{
-    justify-content: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: start;
+    min-height: 100%;
     color: #fff;
 }
+
+.homePage-wrapper {
+    width: 1080px;
+    display:flex;
+}
 .content {
+    justify-content: center;
+    align-items: center;
     font-size: 16px;
-    margin-left: 6rem;
+    margin-left: 5rem; 
     transition: margin-left 200ms ease;
 }
-
+.homeHeader {
+    padding-left: 10%;
+    padding-top: 1%;
+}
 .navbar {
     width: 5rem;
     height: 100vh;
@@ -16,9 +29,20 @@
     position: fixed;
 }
 
+    
 /* Small Screens */
 @media only screen and (max-width: 600px) {
     .content {
-        margin-left: 1rem;
-    }
+        margin-right: auto;
+        margin-left: 10rem;
+    } 
+
+}
+
+@media only screen and (max-width: 400px) {
+    .content {
+        margin-right: auto;
+        margin-left: 4rem;
+    } 
+
 }
