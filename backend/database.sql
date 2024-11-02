@@ -7,7 +7,7 @@ CREATE TABLE users(
 );
 CREATE TABLE playerInfo(
     playerInfoID SERIAL PRIMARY KEY,
-    playerID INT NOT NULL,
+    playerID INT ,
     FOREIGN KEY (playerID) REFERENCES users(user_id),
     playerName VARCHAR(255) NOT NULL,
     FOREIGN KEY (playerName) REFERENCES users(username),

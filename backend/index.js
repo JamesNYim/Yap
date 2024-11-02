@@ -13,20 +13,29 @@ app.listen(8888, () => {
 // ROUTES //
 
 // Create a user //
-app.post("/users", async(req, res) => {
-   try {
+app.post("/users", async (req, res) => {
+    const { username, email, password } = req.body;
+    
+    try {
+        // Step 1: Insert into users table
+        const newUserResult = await pool.query(
+            "INSERT INTO users (username, email, password) VALUES($1, $2, $3) RETURNING *",
+            [username, email, password]
+        );
 
-        const {username, email, password} = req.body;
-        const newUser = await pool.query(
-            "INSERT INTO users (username, email, password) VALUES($1, $2, $3) RETURNING *", 
-            [username, email, password]);
+        const newUser = newUserResult.rows[0];
 
-        res.json(newUser);
-    } 
-    catch(err) {
-       console.log(err.message); 
+        // Step 2: Use the returned user_id to insert into playerInfo
+        const newPlayerInfoResult = await pool.query(
+            "INSERT INTO playerInfo (playerid, playername, balance, hasloggedintoday) VALUES($1, $2, $3, $4)",
+            [newUser.user_id, username, 0, false]
+        );
+
+        res.json({ user: newUser, playerInfo: newPlayerInfoResult.rows[0] });
+    } catch (err) {
+        console.error("Error occurred while inserting user or player info:", err.message);
     }
-})
+});
 // Get all users //
 app.get("/users", async (req, res) => {
     try {
@@ -145,13 +154,24 @@ app.post('/login' , async (req, res) => {
 // Getting a users post
 app.get('/:username', async (req, res) => {
     const { username } = req.params;
-    console.log("its calling");
     try {
         const userPosts = await pool.query('SELECT * FROM posts WHERE creator_name = $1', [username]);
         return res.status(200).json({posts: userPosts.rows});
     }
     catch (e) {
         return res.status(500).json({message: "error getting user it broke"})
+    }
+});
+
+// Getting Player Info
+app.get('/getPlayerInfo/:username', async (req, res) => {
+    const { username } = req.params;
+    try {
+        const playerInfo = await pool.query('SELECT * FROM playerInfo WHERE playerName = $1', [username]);
+        return res.status(200).json({info: playerInfo.rows});
+    }
+    catch (e) {
+        return res.status(500).json({message: "Failed to get player info"});
     }
 });
 
